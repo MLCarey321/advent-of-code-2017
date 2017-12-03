@@ -34,7 +34,7 @@ while True:
         i += 2
         counter += 1
 
-distance = counter - (i*i - square) + counter
+distance = counter * 2 - (i**2 - square)
 print "Part One:", distance
 
 while True:
