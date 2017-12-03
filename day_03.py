@@ -6,7 +6,7 @@ i = 1
 counter = 0
 
 length = 15
-grid = [[None for x in range(length)] for y in range(length)]
+grid = [[0 for x in range(length)] for y in range(length)]
 x = length / 2
 y = length / 2
 depth = 0
@@ -17,14 +17,14 @@ total = 0
 
 def get_total(x, y):
     ret_val = 0
-    ret_val += grid[y-1][x] if y > 0 and grid[y-1][x] else 0
-    ret_val += grid[y-1][x-1] if y > 0 and x > 0 and grid[y-1][x-1] else 0
-    ret_val += grid[y-1][x+1] if y > 0 and x < len(grid) and grid[y-1][x+1] else 0
-    ret_val += grid[y+1][x] if y < len(grid) and grid[y+1][x] else 0
-    ret_val += grid[y+1][x-1] if y < len(grid) and x > 0 and grid[y+1][x-1] else 0
-    ret_val += grid[y+1][x+1] if y < len(grid) and x < len(grid) and grid[y+1][x+1] else 0
-    ret_val += grid[y][x-1] if x > 0 and grid[y][x-1] else 0
-    ret_val += grid[y][x+1] if x < len(grid) and grid[y][x+1] else 0
+    ret_val += grid[y-1][x]
+    ret_val += grid[y-1][x-1]
+    ret_val += grid[y-1][x+1]
+    ret_val += grid[y+1][x]
+    ret_val += grid[y+1][x-1]
+    ret_val += grid[y+1][x+1]
+    ret_val += grid[y][x-1]
+    ret_val += grid[y][x+1]
     return ret_val
 
 while True:
@@ -76,3 +76,6 @@ while True:
         break
 
 print "Part Two:", total
+print_length = "%"+str(len(str(total)))+"s"
+for row in range(length):
+    print "\t".join(map((lambda nbr: print_length % nbr), grid[row]))
