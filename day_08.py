@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
 import sys
-import re
-from copy import deepcopy
 
 instructions = []
 registers = {}
