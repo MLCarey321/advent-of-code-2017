@@ -1,81 +1,51 @@
 #!/usr/bin/python3
 
-square = input("? ")
+value = input("? ")
+grid = {(0, 0): 1}
+
+
+def get_value_for_coordinates(x, y):
+    global grid
+    total = 0
+    for dx in range(-1, 2):
+        for dy in range(-1, 2):
+            total += 0 if (x + dx, y + dy) not in grid.keys() else grid[(x + dx, y + dy)]
+    grid[(x, y)] = total
+    return total
+
+
+def get_highest_for_side(base, fx, fy):
+    global value
+    side_highest = 0
+    square_size = (level * 2) + 1
+    for delta in range(1, square_size):
+        side_highest = get_value_for_coordinates(fx(base, delta), fy(base, delta))
+        if side_highest > value:
+            break
+    return side_highest
+
 
 i = 1
 counter = 0
+while i * i < value:
+    i += 2
+    counter += 1
+print "Part One:", counter * 2 - (i ** 2 - value)
 
-length = 15
-grid = [[0 for x in range(length)] for y in range(length)]
-x = length / 2
-y = length / 2
-depth = 0
-grid[x][y] = 1
-x += 1
-total = 0
-
-
-def get_total(x, y):
-    ret_val = 0
-    ret_val += grid[y-1][x]
-    ret_val += grid[y-1][x-1]
-    ret_val += grid[y-1][x+1]
-    ret_val += grid[y+1][x]
-    ret_val += grid[y+1][x-1]
-    ret_val += grid[y+1][x+1]
-    ret_val += grid[y][x-1]
-    ret_val += grid[y][x+1]
-    return ret_val
-
+highest = 0
+level = 0
 while True:
-    if i*i >= square:
+    level += 1
+    highest = get_highest_for_side(level, (lambda l, d: l), (lambda l, d: -l + d))
+    if highest > value:
         break
-    else:
-        i += 2
-        counter += 1
-
-distance = counter * 2 - (i**2 - square)
-print "Part One:", distance
-
-while True:
-    depth += 1
-    for delta in range((depth*2)-1):
-        total = get_total(x, y)
-        grid[y][x] = total
-        y -= 1
-        if total > square:
-            break
-    if total > square:
+    highest = get_highest_for_side(level, (lambda l, d: l - d), (lambda l, d: l))
+    if highest > value:
         break
-
-    for delta in range((depth*2)):
-        total = get_total(x, y)
-        grid[y][x] = total
-        x -= 1
-        if total > square:
-            break
-    if total > square:
+    highest = get_highest_for_side(level, (lambda l, d: -l), (lambda l, d: l - d))
+    if highest > value:
         break
-
-    for delta in range((depth*2)):
-        total = get_total(x, y)
-        grid[y][x] = total
-        y += 1
-        if total > square:
-            break
-    if total > square:
+    highest = get_highest_for_side(level, (lambda l, d: -l + d), (lambda l, d: -l))
+    if highest > value:
         break
-
-    for delta in range((depth*2)+1):
-        total = get_total(x, y)
-        grid[y][x] = total
-        x += 1
-        if total > square:
-            break
-    if total > square:
-        break
-
-print "Part Two:", total
-print_length = "%"+str(len(str(total)))+"s"
-for row in range(length):
-    print "\t".join(map((lambda nbr: print_length % nbr), grid[row]))
+print "Part Two:", highest
