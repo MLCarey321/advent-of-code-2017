@@ -18,7 +18,7 @@ while True:
         break
 
 
-def find_part_two(program):
+def find_unbalanced_program_weight(program):
     global base_weights, children, total_weights
     if len(children[program]) == 0:
         total_weights[program] = base_weights[program]
@@ -26,7 +26,7 @@ def find_part_two(program):
     total_weight = base_weights[program]
     children_weights = {}
     for kid in children[program]:
-        solution = find_part_two(kid)
+        solution = find_unbalanced_program_weight(kid)
         if solution != 0:
             return solution
         child_weight = total_weights[kid]
@@ -48,4 +48,4 @@ for parent in children.keys():
         print "Part One:", parent
         root_node = parent
 
-print "Part Two:", find_part_two(root_node)
+print "Part Two:", find_unbalanced_program_weight(root_node)
