@@ -21,7 +21,7 @@ while True:
         break
 start = time.time()
 severity = 0
-sorted_depths = sorted(layers.keys())
+sorted_depths = [key for key, value in sorted(layers.items(), key=lambda (k, v): v)]
 for layer in layers.keys():
     security_range = layers[layer]
     security = layer % (security_range * 2 - 2)
@@ -33,4 +33,4 @@ while not scott_free(test_delay):
     test_delay += 1
 print "Part Two:", test_delay
 end = time.time()
-print end - start
+print "Processing Time:", end - start
