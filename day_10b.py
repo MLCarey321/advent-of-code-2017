@@ -29,8 +29,7 @@ def get_knot_hash(string):
     for sparse_range in range(16):
         dense_bits.append(numpy.bitwise_xor.reduce(numbers[sparse_range*16:sparse_range*16+16]))
 
-    dense_hash = map((lambda bits: format(bits, '#04x')), dense_bits)
-    return ''.join(map((lambda string: string[2:4]), dense_hash))
+    return ''.join(map((lambda bits: str(format(bits, '#04x'))[2:]), dense_bits))
 
 if __name__ == '__main__':
     print get_knot_hash(sys.stdin.readline())
