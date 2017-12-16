@@ -5,10 +5,12 @@ import time
 
 
 def scott_free(delay):
-    global layers, sorted_depths
+    global layers, sorted_depths, delay_increase
     for depth in sorted_depths:
         if (depth + delay) % (layers[depth] * 2 - 2) == 0:
             return False
+        elif layers[depth] == 2:
+            delay_increase = 2
     return True
 
 layers = {}
@@ -28,9 +30,10 @@ for layer in layers.keys():
     if security == 0:
         severity += layer * security_range
 print "Part One:", severity
+delay_increase = 1
 test_delay = 1
 while not scott_free(test_delay):
-    test_delay += 1
+    test_delay += delay_increase
 print "Part Two:", test_delay
 end = time.time()
 print "Processing Time:", end - start
